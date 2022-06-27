@@ -1,0 +1,83 @@
+{% if not current_user.is_authenticated %}
+{% extends "base.html" %}
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Login</h3>
+    <div class="box">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}. Silahkan <a href="{{ url_for('signup') }}">daftar admin</a>.
+        </div>
+    {% endif %}
+    {% endwith %}
+    <select id="role" onclick="login()" name="role" style="width:300px;height:40px; margin-bottom: 10px;">
+    <option value="admin">admin</option>
+    <option value="guru">guru</option>
+    </select><br>
+            <form id="loginadmin" action="/api/v1/admin/login" method="POST">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email"id="email" placeholder="Your Email" autofocus="" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password"id="password" placeholder="Your Password" required>
+                </div>
+            </div>
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+            </div>
+            <button id="btnSubmit" onclick="" class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
+        <form id="loginguru" action="/api/v1/guru" method="GET" style="display: none ;">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="nip"id="nip" placeholder="Your NIP" autofocus="" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password"id="password" placeholder="Your Password" required>
+                </div>
+            </div>
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+            </div>
+            <button id="btnSubmit" onclick="" class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  function login(){
+    let combo = document.getElementById("role").value;
+    var admin = document.getElementById("loginadmin");
+    var guru  = document.getElementById("loginguru");
+    if (combo =="admin"){
+        admin.style.display="block"
+        guru.style.display="none"
+    }
+    else if (combo =="guru"){
+        admin.style.display ="none"
+        guru.style.display="block"
+    }
+  }
+</script>
+{% endblock %}
+{% endif %}
+{% if current_user.is_authenticated %}
+anda sudah login <br>
+silahkan kembali ke dashboard<br>
+<a href="{{url_for('dashboard')}}"><button>Dashboard</button></a>
+
+{% endif %}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body >
+  <!-- partial:index.partial.html -->
+  <section class="msger">
+    <header class="msger-header">
+      <div class="msger-header-title">
+        <i class="fas fa-bug"></i> BertChatbot <i class="fas fa-bug"></i>
+      </div>
+    </header>
+
+    <main class="msger-chat"  style="background-image: url(../../static/images/backgroundchatbot.jpg)">
+      <div class="msg left-msg">
+        <div class="msg-img" style="background-image: url(../../static/images/logochatbot.png)"></div>
+
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name">BertChatbot</div>
+            <div class="msg-info-time">12:45</div>
+          </div>
+
+          <div class="msg-text">
+            Hai, Selamat Datang Di Chatbot penjawab soal otomatis😄 masukan koteks dan pertnyanaan anda di 2 kolom dibawah😄
+      
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <form class="msger-inputarea">
+      <input type="hidden" class="" id="token" value="{{current_user.token}}">
+      
+      <div class="msg-info-name">konteks = </div>
+      <input type="text" class="msger-input-konteks" id="konteks" placeholder="Enter context...">
+      <div class="msg-info-name">pertanyaan = </div>
+      <input type="text" class="msger-input-pertanyaan" id="pertanyaan" placeholder="Enter question...">
+      <button type="submit" class="msger-send-btn">Send</button>
+    </form>
+  </section>
+  <!-- partial -->
+  <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
+  <script>
+
+    const msgerForm = get(".msger-inputarea");
+    const msgerInputkonteks = get(".msger-input-konteks");
+    const msgerInputpertanyaan = get(".msger-input-pertanyaan");
+    const msgerChat = get(".msger-chat");
+
+    // Icons made by Freepik from www.flaticon.com
+    const BOT_IMG = "../../static/images/logochatbot.png";
+    const PERSON_IMG = "../../static/images/pp3.png";
+    const BOT_NAME = "Green";
+    const PERSON_NAME = "You";
+    msgerForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const msgTextkonteks = msgerInputkonteks.value;
+      const msgTextpertanyaan = msgerInputpertanyaan.value;
+      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgTextkonteks);
+      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgTextpertanyaan);
+      msgerInputkonteks.value = "";
+      msgerInputpertanyaan.value = "";
+      botResponse(msgTextkonteks,msgTextpertanyaan);
+    });
+
+    function appendMessage(name, img, side, text) {
+      //   Simple solution for small apps
+      const msgHTML = `
+<div class="msg ${side}-msg">
+  <div class="msg-img" style="background-image: url(${img})"></div>
+
+  <div class="msg-bubble">
+    <div class="msg-info">
+      <div class="msg-info-name">${name}</div>
+      <div class="msg-info-time">${formatDate(new Date())}</div>
+    </div>
+
+    <div class="msg-text">${text}</div>
+  </div>
+</div>
+`;
+
+      msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+      msgerChat.scrollTop += 500;
+    }
+
+    function botResponse(konteks,pertanyaan) {
+
+      // Bot Response
+      $.post("/apipredict", { context:konteks, question:pertanyaan }).done(function (data) {
+        console.log(konteks);
+        console.log(pertanyaan);
+        console.log(data[0]);
+        const botresponse1 = data[0]
+        const botresponse2 = data[1]
+        const botresponse3 = data[2]
+        if (botresponse1.jawaban=="maaf saya tidak tahu"){
+          appendMessage(BOT_NAME, BOT_IMG, "left", botresponse1.jawaban);
+          appendMessage(BOT_NAME, BOT_IMG, "left", "coba pertanyaan atau konteks yang lain");
+        }
+        else{
+        appendMessage(BOT_NAME, BOT_IMG, "left", "saya punya bebearapa jawaban atas pertanyaan anda :");
+        appendMessage(BOT_NAME, BOT_IMG, "left", botresponse1.jawaban);
+        appendMessage(BOT_NAME, BOT_IMG, "left", botresponse2.jawaban);
+        appendMessage(BOT_NAME, BOT_IMG, "left", botresponse3.jawaban);}
+      });
+    }
+
+
+    // Utils
+    function get(selector, root = document) {
+      return root.querySelector(selector);
+    }
+
+    function formatDate(date) {
+      const h = "0" + date.getHours();
+      const m = "0" + date.getMinutes();
+
+      return `${h.slice(-2)}:${m.slice(-2)}`;
+    }
+</script>
+</body>
+</html>
+
+
+  </script>
+
+</body>
+
+</html>
