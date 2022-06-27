@@ -9,13 +9,7 @@ from application import models
 from werkzeug.utils import secure_filename
 import os,glob,urllib.request
 from functools import wraps
-from flask_httpauth import HTTPTokenAuth
-token = HTTPTokenAuth(scheme='Bearer')
 main = Blueprint('main', __name__)
-@token.verify_token
-def verify_token(token):
-    user=ADMIN.query.filter_by(token=token).first() 
-    return user.name
 
 def roles_required(*role_names):
     def decorator(original_route):
