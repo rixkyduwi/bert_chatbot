@@ -37,46 +37,49 @@ def login():
       if current_user.is_authenticated:
           return redirect(url_for('dashboard'))
       return render_template('login.html')
-@app.route('/signup')
-def signup():
+@app.route('/signup') 
+def signup(): 
       if current_user.is_authenticated:
-          return redirect(url_for('dashboard'))
-      return render_template('signup.html')
-@app.route('/dashboard')
-@roles_required('admin','guru')
-def dashboard():
+          return redirect(url_for('dashboard')) 
+      return render_template('signup.html') 
+@app.route('/dashboard') 
+@roles_required('admin','guru') 
+def dashboard(): 
     return render_template("dashboard/index.html", name=current_user.name)
-@app.route('/admin')
-@roles_required('admin')
-def admin():
+@app.route('/admin') 
+@roles_required('admin') 
+def admin(): 
     admin= ADMIN.query.all()
     return render_template("dashboard/index.html",admin=admin, name=current_user.name)
-@app.route('/guru')
-@roles_required('admin')
-def guru():
-    guru= GURU.query.all()
+@app.route('/guru') 
+@roles_required('admin') 
+def guru(): 
+    guru= GURU.query.all() 
     return render_template("dashboard/index.html", guru=guru,name=current_user.name)
-@app.route('/siswa')
-@roles_required('admin','guru')
-def siswa():
-    siswa= SISWA.query.all()
+@app.route('/siswa') 
+@roles_required('admin','guru') 
+def siswa(): 
+    siswa= SISWA.query.all() 
     return render_template("dashboard/index.html", siswa=siswa, name=current_user.name)
 @app.route('/history')
-@roles_required('admin','guru')
-def history():
-    history= HISTORY.query.all()
-    return render_template("dashboard/index.html", history=history, name=current_user.name)
+@roles_required('admin','guru') 
+def history(): 
+    history= HISTORY.query.all() 
+    return render_template("dashboard/data_history.html", history=history, name=current_user.name)
+@app.route('/history_siswa')
+@roles_required('siswa') 
+def history_siswa(): 
+    history= HISTORY.query.filter_by(nama=current_user.nama).first()
+    return render_template("dashboard/index.html",tanggal=history['tanggal'], history=history, name=current_user.name)
 @app.route("/apipredict", methods=['POST'])
-@roles_required('admin','guru','siswa')
-def apipredict():
-    user=current_user.name
+def apipredict(): 
+    user='user android'
     context = request.form['context']
     print(context)
     question = request.form['question']
     print(question)
     return bert_prediction(user,str(context),str(question))
 @app.route("/chatbot")
-@roles_required('admin','guru','siswa')
 def chatbot():
-    return render_template("dashboard/chatbot copy.html")
+    return render_template("dashboard/chatbot.html")
     

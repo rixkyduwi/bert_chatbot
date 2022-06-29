@@ -33,6 +33,7 @@ class SISWA(UserMixin, db.Model):
     NIS = db.Column(db.String(100), primary_key=True) # primary keys are required by SQLAlchemy
     Nama = db.Column(db.String(100))
     Password = db.Column(db.String(100))
+    role = db.Column(db.String(100))
     Alamat = db.Column(db.String(1000))
     NamaOrtu = db.Column(db.String(1000))
     Token = db.Column(db.String(1000))
