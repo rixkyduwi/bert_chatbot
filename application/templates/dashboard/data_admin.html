@@ -1,0 +1,43 @@
+{% include 'dashboard/nav.html' %}
+{% block content %}
+<div class="container" style="margin-left: 150px;margin-right: 20px;">
+    <div class="starter-template">
+        <h1>Data Admin</h1>
+        {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>email</td>
+                    <td>password</td>
+                    <td>nama</td>
+                    <td>pilih</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in admin %} 
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>{{ row.password }}</td>
+                    <td>{{ row.nama }}</td></a>
+                    <td><a href="/formupdate/{{row.id}}">Edit</a> | <a href="/deleteadmin/{{row.id}}">Hapus</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="2">tidak ada data</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /.container -->
+{% endblock %}

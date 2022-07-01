@@ -20,8 +20,8 @@ class apiregisterADMIN(Resource):
         if admin: # if a user is found, we want to redirect back to signup page so user can try again
             flash('Email sudah ada')
             return redirect(url_for('signup'))
-            # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-        admin_baru = ADMIN(email=email, name=name, password=generate_password_hash(password, method='sha256'),token='')
+            # create a new user with the formdata. Hash the password so the plaintext version isn't saved.
+        admin_baru = ADMIN(email=email, nama=name, password=generate_password_hash(password, method='sha256'),token='')
             # add the new user to the database
         db.session.add(admin_baru)
         db.session.commit()

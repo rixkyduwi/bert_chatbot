@@ -2,36 +2,38 @@
 {% block content %}
 <div class="container" style="margin-left: 150px;margin-right: 20px;">
     <div class="starter-template">
-        <h1>tampilan dari Database</h1>
-        <h1>Data Akumulasi Pembuangan Sampah Per rumah</h1>
-        <h2>Di Perumahan Palm Asri</h2>
+        <h1>Data Siswa</h1>{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <td>No</td>
-                    <td>nama</td>
-                    <td>nomor rumah</td>
-                    <td>kontak</td>
-                    <td>password</td>
-                    <td>email</td>
+                    <td>NIS</td>
+                    <td>Password</td>
+                    <td>Nama</td>
+                    <td>Alamat</td>
+                    <td>Nama Ortu</td>
                     <td>pilih</td>
                 </tr>
             </thead>
             <tbody>
-                {% for row in data_warga %} 
+                {% for row in siswa %} 
                 <tr>
-                    <a href="/history/{{ row.4 }}"><td>{{ row.0 }}</td>
-                    <td>{{ row.1 }}</td>
-                    <td>{{ row.2 }}</td>
-                    <td>{{ row.3 }}</td>
-                    <td>{{ row.4 }}</td>
-                    <td>{{ row.5 }}</td></a>
-                    <td><a href="/formupdate/{{row.0}}">Edit</a> | <a href="/deleteuser/{{row.0}}">Hapus</a>
+                    <a href="/history/{{ row.NIS }}"><td>{{ row.NIS }}</td>
+                    <td>{{ row.Password }}</td>
+                    <td>{{ row.Nama }}</td>
+                    <td>{{ row.Alamat }}</td>
+                    <td>{{ row.NamaOrtu }}</td></a>
+                    <td><a href="/formupdate/{{ row.NIS }}">Edit</a> | <a href="/deletesiswa/{{row.NIS}}">Hapus</a>
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="2">Unbelievable. No entries here so far</td>
+                    <td colspan="2">Tidak Ada Data</td>
                 </tr>
                 {% endfor %}
             </tbody>

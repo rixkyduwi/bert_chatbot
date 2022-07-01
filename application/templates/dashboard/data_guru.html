@@ -3,6 +3,13 @@
 <div class="container" style="margin-left: 150px;margin-right: 20px;">
     <div class="starter-template">
         <h1>Data Guru</h1>
+        {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -16,11 +23,11 @@
             <tbody>
                 {% for row in guru %} 
                 <tr>
-                    <td>{{ row.0 }}</td>
-                    <td>{{ row.1 }}</td>
-                    <td>{{ row.2 }}</td>
-                    <td>{{ row.4 }}</td></a>
-                    <td><a href="/formupdate/{{row.0}}">Edit</a> | <a href="/deleteuser/{{row.0}}">Hapus</a>
+                    <td>{{ row.NIP }}</td>
+                    <td>{{ row.Nama }}</td>
+                    <td>{{ row.Password }}</td>
+                    <td>{{ row.Alamat }}</td></a>
+                    <td><a href="/formupdate/{{row.NIP}}">Edit</a> | <a href="/deleteguru/{{row.NIP}}">Hapus</a>
                     </td>
                 </tr>
                 {% else %}

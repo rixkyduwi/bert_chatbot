@@ -35,7 +35,7 @@
         <div class="logo-details">
             <i style="cursor:pointer;" class='bx bx-menu'></i>
             <span class="logo_name" style="font-size:14px">
-                Welcome, {{ current_user.name }} !
+                Welcome, {{ current_user.nama }} !
               </span>
         </div>
         <ul class="nav-links">
@@ -61,6 +61,7 @@
 
         </ul>
     </div>
+    {% block content %} {% endblock %}
     <script>
     let arrow = document.querySelectorAll(".arrow");
     for (var i = 0; i < arrow.length; i++) {
