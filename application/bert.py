@@ -1,12 +1,12 @@
 import torch,time,numpy as np
-from application import app,db,HISTORY
+from application import app,db
+from application.models import HISTORY
 from flask import jsonify
 from transformers import BertTokenizerFast, BertForQuestionAnswering, Trainer, TrainingArguments
-
 device = "cuda" if torch.cuda.is_available() else "cpu" 
 torch.device(device) 
 modelCheckpoint = "indolem/indobert-base-uncased"
-model = BertForQuestionAnswering.from_pretrained("model")
+model = BertForQuestionAnswering.from_pretrained("rizkyds/bert-phb")
 tokenizer = BertTokenizerFast.from_pretrained(modelCheckpoint)
 start_time = time.time()
 def bert_prediction(user,context,question):

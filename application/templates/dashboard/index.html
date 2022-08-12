@@ -43,7 +43,7 @@
         <main class="main-admin" style="margin-top:-2em;">
             <section class="cards" id="exp">
                 <div class="card"style="width: 190px;"> 
-                    <a href="{{url_for('admin')}}" >
+                    <a href="{{url_for('main.admin')}}" >
                     <div class="card__image-container" >
                             <img src="../../static/images/book.png"
                                 alt="Detailed image description would go here."style="height: 200px; width: 180px;"/>
@@ -56,7 +56,7 @@
                 </a>
                 </div>
                 <div class="card" style="width: 190px;">
-                    <a href="{{url_for('guru')}}">
+                    <a href="{{url_for('main.guru')}}">
                     <div class="card__image-container">
                             <img style="height: 200px; width: 180px;"src="../../static/images/book.png" alt="Detailed image description would go here." />
                     </div>
@@ -68,7 +68,7 @@
                 </a>
                 </div>
                 <div class="card" style="width: 190px;">
-                    <a href="{{url_for('siswa')}}">
+                    <a href="{{url_for('main.siswa')}}">
                     <div class="card__image-container">
                             <img style="height: 200px; width: 180px;" src="../../static/images/book.png" alt="Detailed image description would go here." />
                         
@@ -80,23 +80,38 @@
                     </div>
                 </a>
                 </div>
-                <div class="card" style="width: 190px;">
-                    <a href="{{url_for('history')}}">
-                    <div class="card__image-container">
-                       
-                            <img style="height: 200px; width: 180px;"  src="../../static/images/book.png" alt="Detailed image description would go here." />
-                        
-                    </div>
-                    <div class="card__content d-flex" style="justify-content: space-between;align-items: center">
-                        <p class="card__title text--medium">
-                            Data History Chatbot
-                        </p>
-                    </div>
-                </a>
-                </div>
-                </a>
-                </div>
-               
                 
+            </section><br>
+            
+            <section class="cards" id="exp">
+            <div class="card" style="width: 190px;">
+                <a href="{{url_for('main.history')}}">
+                <div class="card__image-container">
+                   
+                        <img style="height: 200px; width: 180px;"  src="../../static/images/book.png" alt="Detailed image description would go here." />
+                    
+                </div>
+                <div class="card__content d-flex" style="justify-content: space-between;align-items: center">
+                    <p class="card__title text--medium">
+                        Data History Chatbot
+                    </p>
+                </div>
+            </a>
+            </div>
+            <div class="card" style="width: 190px;">
+                <a href="{{url_for('main.chatbot')}}">
+                <div class="card__image-container">
+                   
+                        <img style="height: 200px; width: 180px;"  src="../../static/images/book.png" alt="Detailed image description would go here." />
+                    
+                </div>
+                <div class="card__content d-flex" style="justify-content: space-between;align-items: center">
+                    <p class="card__title text--medium">
+                        BERT CHATBOT
+                    </p>
+                </div>
+            </a>
+            </div>
             </section>
+            
         </main>

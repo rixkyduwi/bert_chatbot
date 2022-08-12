@@ -3,12 +3,11 @@ from flask import Blueprint, render_template,request,redirect,url_for,jsonify,ma
 from flask_login import login_user, logout_user, login_required,current_user
 from werkzeug.security import check_password_hash,generate_password_hash
 from flask import request,jsonify
-import random, string,jwt
+import random, string
 
 from flask_restful import Resource, Api
 auth = Blueprint('auth', __name__)
 api = Api(auth)
-
 
 class apiregisterADMIN(Resource):
     def post(self):
@@ -19,13 +18,13 @@ class apiregisterADMIN(Resource):
         admin = ADMIN.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
         if admin: # if a user is found, we want to redirect back to signup page so user can try again
             flash('Email sudah ada')
-            return redirect(url_for('signup'))
+            return redirect(url_for('main.signup'))
             # create a new user with the formdata. Hash the password so the plaintext version isn't saved.
         admin_baru = ADMIN(email=email, nama=name, password=generate_password_hash(password, method='sha256'),token='')
             # add the new user to the database
         db.session.add(admin_baru)
         db.session.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 class apiloginADMIN(Resource):
     def post(self):
         email = request.form['email']
@@ -34,20 +33,20 @@ class apiloginADMIN(Resource):
         admin= ADMIN.query.filter_by(email=email).first()
         if not admin:
             flash('email berbeda')
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
         elif not check_password_hash(admin.password, password):
             flash("password salah")
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
         token = ''.join(random.choices(string.ascii_uppercase + string.digits, k = j))
         admin.token= token
         login_user(admin)
         db.session.commit()
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('main.dashboard'))
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 class apiGURU(Resource):
     #login
     def get(self):
@@ -57,15 +56,15 @@ class apiGURU(Resource):
         j=15
         if not guru:
             flash('email berbeda')
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
         elif not check_password_hash(guru.password, Password):
             flash("password salah")
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
         token = ''.join(random.choices(string.ascii_uppercase + string.digits, k = j))
         guru.token= token
         login_user(guru)
         db.session.commit()
-        return redirect(url_for('auth.apilogin'))  
+        return redirect(url_for('main.dashboard'))  
     #register
     def post(self):
         NIP = request.form['nip']
@@ -75,11 +74,11 @@ class apiGURU(Resource):
         guru = GURU.query.filter_by(NIP=NIP).first() # if this returns a user, then the email already exists in database
         if guru: # if a user is found, we want to redirect back to signup page so user can try again
             flash('NIP Sudah Ada')
-            return redirect(url_for('signup'))
+            return redirect(url_for('main.signup'))
         admin = GURU(NIP=NIP,Nama=Nama,Password=generate_password_hash(Password),token= '',Alamat=Alamat)
         db.session.add(admin)
         db.session.commit()
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('main.dashboard'))
 class apiSISWA(Resource):
     #login
     def get(self):

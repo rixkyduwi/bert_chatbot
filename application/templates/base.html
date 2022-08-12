@@ -24,15 +24,15 @@
                         <div class="navbar-end">
                             
                             {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('dashboard') }}" class="navbar-item">
+                            <a href="{{ url_for('main.dashboard') }}" class="navbar-item">
                                 Profile
                             </a>
                             {% endif %}
                             {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('login') }}" class="navbar-item">
+                            <a href="{{ url_for('main.login') }}" class="navbar-item">
                                 Login
                             </a>
-                            <a href="{{ url_for('signup') }}" class="navbar-item">
+                            <a href="{{ url_for('main.signup') }}" class="navbar-item">
                                 Sign Up
                             </a>
                             {% endif %}

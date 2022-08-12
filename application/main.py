@@ -1,52 +1,45 @@
-from tokenize import Token
-from turtle import pos
 from flask import Blueprint, render_template,request,redirect,url_for,jsonify,make_response,flash
 from application import app,db,ADMIN,SISWA,GURU
 from .models import HISTORY
 from .bert import bert_prediction
 from flask_login import login_required, current_user
-from application import models 
-from werkzeug.utils import secure_filename
-import os,glob,urllib.request
 from functools import wraps
 main = Blueprint('main', __name__)
-
 def roles_required(*role_names):
     def decorator(original_route):
         @wraps(original_route)
         def decorated_route(*args, **kwargs):
             if not current_user.is_authenticated:
                 print('The user is not authenticated.')
-                return redirect(url_for('login'))
-            
+                return redirect(url_for('main.login'))
             print(current_user.role)
             print(role_names)
             if not current_user.role in role_names:
                 print('The user does not have this role.')
-                return redirect(url_for('login'))
+                return redirect(url_for('main.login'))
             else:
                 print('The user is in this role.')
                 return original_route(*args, **kwargs)
         return decorated_route
     return decorator
-@app.route('/') 
+@main.route('/') 
 def index():
     return render_template('index.html')
-@app.route('/login')
+@main.route('/login')
 def login():
       if current_user.is_authenticated:
-          return redirect(url_for('dashboard'))
+          return redirect(url_for('main.dashboard'))
       return render_template('login.html')
-@app.route('/signup') 
+@main.route('/signup') 
 def signup(): 
       if current_user.is_authenticated:
-          return redirect(url_for('dashboard')) 
+          return redirect(url_for('main.dashboard')) 
       return render_template('signup.html') 
-@app.route('/dashboard') 
+@main.route('/dashboard') 
 @roles_required('admin','guru') 
 def dashboard(): 
     return render_template("dashboard/index.html", name=current_user.nama)
-@app.route('/admin') 
+@main.route('/admin') 
 @roles_required('admin') 
 def admin(): 
     admin= ADMIN.query.all()
@@ -62,8 +55,8 @@ def deleteadmin(id):
             flash('Data Admin Sudah Dihapus')
     except Exception as e:
         return make_response(e)
-    return redirect(url_for('admin'))
-@app.route('/guru') 
+    return redirect(url_for('main.admin'))
+@main.route('/guru') 
 @roles_required('admin') 
 def guru(): 
     guru= GURU.query.all() 
@@ -79,8 +72,8 @@ def deleteguru(id):
             flash('Data Guru Sudah Dihapus')
     except Exception as e:
         return make_response(e)
-    return redirect(url_for('guru'))
-@app.route('/siswa') 
+    return redirect(url_for('main.guru'))
+@main.route('/siswa') 
 @roles_required('admin','guru') 
 def siswa(): 
     siswa= SISWA.query.all() 
@@ -96,18 +89,18 @@ def deletesiswa(id):
             flash('Data Siswa Sudah Dihapus')
     except Exception as e:
         return make_response(e)
-    return redirect(url_for('siswa'))
-@app.route('/history')
+    return redirect(url_for('main.siswa'))
+@main.route('/history')
 @roles_required('admin','guru') 
 def history(): 
     history= HISTORY.query.all() 
     return render_template("dashboard/data_history.html", history=history, name=current_user.nama)
-@app.route('/history_siswa')
+@main.route('/history_siswa')
 @roles_required('admin','siswa') 
 def history_siswa(): 
     history= HISTORY.query.filter_by(nama=current_user.nama).first()
     return render_template("dashboard/index.html",tanggal=history['tanggal'], history=history, name=current_user.nama)
-@app.route("/apipredict", methods=['POST']) 
+@main.route("/apipredict", methods=['POST']) 
 def apipredict():  
     user=current_user.nama
     context = request.form['context'] 
@@ -115,7 +108,7 @@ def apipredict():
     question = request.form['question'] 
     print(question) 
     return bert_prediction(user,str(context),str(question)) 
-@app.route("/apipredictandroid", methods=['POST']) 
+@main.route("/apipredictandroid", methods=['POST']) 
 def apipredictandroid():  
     user='user android'
     context = request.form['context'] 
@@ -123,10 +116,10 @@ def apipredictandroid():
     question = request.form['question'] 
     print(question) 
     return bert_prediction(user,str(context),str(question)) 
-@app.route("/chatbot") 
+@main.route("/chatbot") 
 def chatbot(): 
     return render_template("dashboard/chatbot.html") 
-@app.route("/chatbotandroid") 
+@main.route("/chatbotandroid") 
 def chatbotandroid(): 
     return render_template("dashboard/chatbotandroid.html") 
     

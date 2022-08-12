@@ -3,8 +3,6 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 app = Flask(__name__)
-SERVER_NAME = '192.168.100.63:5000'
-app.config['SERVER_NAME']=SERVER_NAME
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bigprojeks2.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= True

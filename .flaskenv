@@ -1,3 +1,3 @@
-APP_DEBUG = True
-APP_HOST ='0.0.0.0'
-APP_MAIN = app.py
+FLASK_APP=app.py
+FLASK_HOST="0.0.0.0"
+FLASK_PORT=5000
