@@ -27,7 +27,7 @@ requests==2.28.1
 six==1.16.0
 SQLAlchemy==1.4.40
 tokenizers==0.12.1
-torch== 'https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl'
+torch== https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl
 torchvision==0.13.1
 tqdm==4.64.0
 transformers==4.21.1
