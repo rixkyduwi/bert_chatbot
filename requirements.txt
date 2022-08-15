@@ -5,6 +5,6 @@ Flask_SQLAlchemy==2.5.1
 numpy==1.21.6
 gunicorn==20.1.0
 SQLAlchemy==1.4.40
-https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl
+https://pypi.tuna.tsinghua.edu.cn/packages/f8/04/ebf936e02d37c185341558de73324c6511d7fb7578cb1c3439411475fd7e/torch-1.11.0-cp39-cp39-manylinux1_x86_64.whl#sha256=58c7814502b1c129a650d7092033bbb0bbd64faf1a7941631aaa1aeaddc37570
 transformers==4.21.1
 Werkzeug==2.2.2
